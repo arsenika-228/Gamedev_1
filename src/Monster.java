@@ -2,10 +2,15 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Monster {
-    private String image = "\uD83E\uDDDF";
+    private String image;
     private final int x, y;
 
     Monster(int sizeBoard) {
+        this(sizeBoard, "\uD83E\uDDDF");
+    }
+
+    Monster(int sizeBoard, String image) {
+        this.image = image;
         Random random = new Random();
         x = 1 + random.nextInt(sizeBoard);
         y = 1 + random.nextInt(sizeBoard - 1);
@@ -21,10 +26,6 @@ public class Monster {
 
     public String getImage() {
         return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public boolean conflictPerson(int personX, int personY) {

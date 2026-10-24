@@ -41,8 +41,8 @@ public class Person {
     }
 
     public boolean isMoveCorrect(int x, int y) {
-        return this.x == x && Math.abs(this.y - y) == 1
-                || this.y == y && Math.abs(this.x - x) == 1;
+        return (this.x == x && Math.abs(this.y - y) == 1)
+                || (this.y == y && Math.abs(this.x - x) == 1);
     }
 
     void move(int x, int y) {

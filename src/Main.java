@@ -9,9 +9,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Привет! Ты готов начать играть в игру? (Напиши: ДА или НЕТ)");
-
-        String answer = scanner.nextLine();
-
+        String answer = scanner.nextLine().toUpperCase();
         System.out.println("Ваш ответ:\t" + answer);
 
         switch (answer) {
@@ -64,7 +62,11 @@ public class Main {
                     Monster monster;
 
                     do {
-                        monster = new Monster(sizeBoard);
+                        if (random.nextBoolean()) {
+                            monster = new Monster(sizeBoard);
+                        } else {
+                            monster = new BigMonster(sizeBoard);
+                        }
                     } while (!board[monster.getY() - 1][monster.getX() - 1].equals("  ")
                             || monster.getX() == person.getX() && monster.getY() == person.getY());
 
