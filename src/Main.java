@@ -12,19 +12,19 @@ public class Main {
 
         System.out.println("-- Привет! Ты готов начать играть в игру? (Напиши: ДА или НЕТ) --");
         String answer = scanner.nextLine().toUpperCase();
-        System.out.println("Ваш ответ:\t" + answer);
+        System.out.println("-- Ваш ответ: " + answer + " --");
 
         switch (answer) {
             case "ДА":
-                System.out.println("Выберите размер игрового поля (от 5 до 9):");
+                System.out.println("-- Выберите размер игрового поля (от 5 до 9): --");
                 int sizeBoard = scanner.nextInt();
 
                 while (sizeBoard < 5 || sizeBoard > 9) {
-                    System.out.println("Размер поля должен быть от 5 до 9:");
+                    System.out.println("-- Размер поля должен быть от 5 до 9: --");
                     sizeBoard = scanner.nextInt();
                 }
 
-                System.out.println("Размер игрового поля: " + sizeBoard + " x " + sizeBoard);
+                System.out.println("-- Размер игрового поля: " + sizeBoard + " x " + sizeBoard + " --");
 
                 int step = 0;
                 int score = 0;
@@ -107,15 +107,15 @@ public class Main {
                     board[monster.getY() - 1][monster.getX() - 1] = monster.getImage();
                 }
 
-                System.out.println("Выбери сложность игры (от 1 до 5):");
+                System.out.println("-- Выбери сложность игры (от 1 до 5): --");
                 int difficultGame = scanner.nextInt();
 
                 while (difficultGame < 1 || difficultGame > 5) {
-                    System.out.println("Нужно выбрать число от 1 до 5:");
+                    System.out.println("-- Нужно выбрать число от 1 до 5: --");
                     difficultGame = scanner.nextInt();
                 }
 
-                System.out.println("Выбранная сложность:\t" + difficultGame);
+                System.out.println("-- Выбранная сложность: " + difficultGame + " --");
                 System.out.println("-- Собирайте сокровища: каждое даёт 10 очков. --");
                 System.out.println("-- Зелье восстанавливает жизнь, а ловушка отнимает её. --");
                 System.out.println("-- Обычный монстр даёт 20 очков, большой — 40. --");
@@ -128,7 +128,7 @@ public class Main {
                     char personLetter = (char) ('A' + person.getX() - 1);
                     System.out.println("-- Введите клетку, например D4, или кнопку W, A, S, D. --");
                     System.out.println("-- Ход возможен только по вертикали или горизонтали на одну клетку. --");
-                    System.out.println("Клетка персонажа: " + personLetter + person.getY());
+                    System.out.println("-- Клетка персонажа: " + personLetter + person.getY() + " --");
 
                     String command = scanner.next().toUpperCase();
                     int x = person.getX();
@@ -149,12 +149,12 @@ public class Main {
                         x = letter - 'A' + 1;
                         y = number - '0';
                     } else {
-                        System.out.println("Введите W, A, S, D или название клетки, например D4");
+                        System.out.println("-- Введите W, A, S, D или название клетки, например D4 --");
                         continue;
                     }
 
                     if (x < 1 || x > sizeBoard || y < 1 || y > sizeBoard) {
-                        System.out.println("Такой клетки нет на игровом поле");
+                        System.out.println("-- Такой клетки нет на игровом поле --");
                         continue;
                     }
 
@@ -165,35 +165,35 @@ public class Main {
                             step++;
 
                             char newLetter = (char) ('A' + person.getX() - 1);
-                            System.out.println("Ход корректный; новая клетка: " + newLetter + person.getY()
-                                    + "\nХод номер: " + step);
+                            System.out.println("-- Ход корректный; новая клетка: " + newLetter + person.getY()
+                                    + "\nХод номер: " + step + " --");
                         } else if (board[y - 1][x - 1].equals(castle)) {
                             step++;
-                            System.out.println("Вы прошли игру за " + step + " ходов!");
-                            System.out.println("Итоговый счёт: " + score);
+                            System.out.println("-- Вы прошли игру за " + step + " ходов! --");
+                            System.out.println("-- Итоговый счёт: " + score + " --");
                             break;
                         } else if (board[y - 1][x - 1].equals(treasure)) {
                             board[person.getY() - 1][person.getX() - 1] = "  ";
                             person.move(x, y);
                             step++;
                             score += 10;
-                            System.out.println("Вы нашли сокровище! +10 очков");
+                            System.out.println("-- Вы нашли сокровище! +10 очков --");
                         } else if (board[y - 1][x - 1].equals(potion)) {
                             board[person.getY() - 1][person.getX() - 1] = "  ";
                             person.move(x, y);
                             step++;
 
                             if (person.upLive()) {
-                                System.out.println("Вы выпили зелье и восстановили одну жизнь!");
+                                System.out.println("-- Вы выпили зелье и восстановили одну жизнь! --");
                             } else {
-                                System.out.println("У вас уже максимальное количество жизней");
+                                System.out.println("-- У вас уже максимальное количество жизней --");
                             }
                         } else if (board[y - 1][x - 1].equals(trap)) {
                             board[person.getY() - 1][person.getX() - 1] = "  ";
                             person.move(x, y);
                             person.downLive();
                             step++;
-                            System.out.println("Вы попали в ловушку и потеряли одну жизнь!");
+                            System.out.println("-- Вы попали в ловушку и потеряли одну жизнь! --");
                         } else {
                             for (Monster monster : monsters) {
                                 if (monster.conflictPerson(x, y)) {
@@ -203,10 +203,10 @@ public class Main {
                                         step++;
                                         if (monster instanceof BigMonster) {
                                             score += 40;
-                                            System.out.println("За победу над большим монстром вы получили 40 очков!");
+                                            System.out.println("-- За победу над большим монстром вы получили 40 очков! --");
                                         } else {
                                             score += 20;
-                                            System.out.println("За победу над монстром вы получили 20 очков!");
+                                            System.out.println("-- За победу над монстром вы получили 20 очков! --");
                                         }
                                     } else {
                                         person.downLive();
@@ -216,7 +216,7 @@ public class Main {
                             }
                         }
                     } else {
-                        System.out.println("Некорректный ход");
+                        System.out.println("-- Некорректный ход --");
                     }
 
                     if (person.getLive() <= 0) {
@@ -225,16 +225,16 @@ public class Main {
                 }
 
                 if (person.getLive() <= 0) {
-                    System.out.println("Закончились жизни. Итоговый счёт: " + score);
+                    System.out.println("-- Закончились жизни. Итоговый счёт: " + score + " --");
                 }
                 break;
 
             case "НЕТ":
-                System.out.println("Жаль, приходи ещё!");
+                System.out.println("-- Жалько, приходи ещё! --");
                 break;
 
             default:
-                System.out.println("Данные введены некорректно");
+                System.out.println("-- Данные введены некорректно --");
                 break;
         }
     }
