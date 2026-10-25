@@ -50,7 +50,8 @@ public class Person {
         this.y = y;
     }
 
-    // Игрок может иметь не больше трёх жизней.
+    // Проверка на живучесть
+
     public boolean upLive() {
         if (live < 3) {
             live++;

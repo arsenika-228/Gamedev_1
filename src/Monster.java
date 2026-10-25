@@ -33,9 +33,9 @@ public class Monster {
     }
 
     public boolean taskMonster(int difficultGame, Scanner scanner) {
-        System.out.println("Решите задачу:");
+        System.out.println("-- Решите задачу --");
 
-        // Сложность определяет вид математического примера.
+        // Сложность определяют тип уравнения
         Random random = new Random();
         int trueAnswer = 0;
         String example = "";
@@ -78,14 +78,14 @@ public class Monster {
             example = a + " * " + b + " + " + c;
         }
 
-        System.out.println("Реши пример: " + example + " = ?");
+        System.out.println("-- Реши пример: " + example + " = ? --");
         int answer = scanner.nextInt();
 
         if (trueAnswer == answer) {
-            System.out.println("Верно! Ты победил монстра");
+            System.out.println("-- Верно! Ты победил монстра --");
             return true;
         } else {
-            System.out.println("Ты проиграл эту битву! Правильный ответ: " + trueAnswer);
+            System.out.println("-- Ты проиграл эту битву! Правильный ответ: " + trueAnswer + " --");
             return false;
         }
     }

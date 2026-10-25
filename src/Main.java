@@ -34,7 +34,8 @@ public class Main {
                 int castleX = 1 + random.nextInt(sizeBoard);
                 int castleY = 1;
 
-                // Сначала создаём пустое игровое поле.
+                // Создание пустого поля
+
                 String[][] board = new String[sizeBoard][sizeBoard];
                 for (int y = 1; y <= sizeBoard; y++) {
                     for (int x = 1; x <= sizeBoard; x++) {
@@ -58,7 +59,8 @@ public class Main {
                     board[treasureY - 1][treasureX - 1] = treasure;
                 }
 
-                // Зелья появляются только на свободных клетках.
+                // Появляние вещей на пустых местах (Ловушки и зелья)
+
                 int countPotion = 1 + sizeBoard / 4;
                 for (int i = 0; i < countPotion; i++) {
                     int potionX;
@@ -73,7 +75,6 @@ public class Main {
                     board[potionY - 1][potionX - 1] = potion;
                 }
 
-                // Ловушки тоже не должны попадать на другие предметы.
                 int countTrap = sizeBoard / 2;
                 for (int i = 0; i < countTrap; i++) {
                     int trapX;
@@ -134,7 +135,8 @@ public class Main {
                     int x = person.getX();
                     int y = person.getY();
 
-                    // W, A, S, D изменяют координаты на одну клетку.
+                    // W, A, S, D изменяют координаты на одну клетку
+
                     if (command.equals("W")) {
                         y--;
                     } else if (command.equals("S")) {
