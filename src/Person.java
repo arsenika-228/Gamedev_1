@@ -50,6 +50,16 @@ public class Person {
         this.y = y;
     }
 
+    // Игрок может иметь не больше трёх жизней.
+    public boolean upLive() {
+        if (live < 3) {
+            live++;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void downLive() {
         if (live <= 0) {
             live = 0;

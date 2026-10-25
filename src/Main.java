@@ -5,10 +5,12 @@ public class Main {
     public static void main(String[] args) {
         String castle = "\uD83C\uDFF0";
         String treasure = "\uD83D\uDCB0";
+        String potion = "\uD83E\uDDEA";
+        String trap = "\uD83D\uDCA5";
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Привет! Ты готов начать играть в игру? (Напиши: ДА или НЕТ)");
+        System.out.println("-- Привет! Ты готов начать играть в игру? (Напиши: ДА или НЕТ) --");
         String answer = scanner.nextLine().toUpperCase();
         System.out.println("Ваш ответ:\t" + answer);
 
@@ -32,6 +34,7 @@ public class Main {
                 int castleX = 1 + random.nextInt(sizeBoard);
                 int castleY = 1;
 
+                // Сначала создаём пустое игровое поле.
                 String[][] board = new String[sizeBoard][sizeBoard];
                 for (int y = 1; y <= sizeBoard; y++) {
                     for (int x = 1; x <= sizeBoard; x++) {
@@ -53,6 +56,36 @@ public class Main {
                             || treasureX == person.getX() && treasureY == person.getY());
 
                     board[treasureY - 1][treasureX - 1] = treasure;
+                }
+
+                // Зелья появляются только на свободных клетках.
+                int countPotion = 1 + sizeBoard / 4;
+                for (int i = 0; i < countPotion; i++) {
+                    int potionX;
+                    int potionY;
+
+                    do {
+                        potionX = 1 + random.nextInt(sizeBoard);
+                        potionY = 1 + random.nextInt(sizeBoard);
+                    } while (!board[potionY - 1][potionX - 1].equals("  ")
+                            || potionX == person.getX() && potionY == person.getY());
+
+                    board[potionY - 1][potionX - 1] = potion;
+                }
+
+                // Ловушки тоже не должны попадать на другие предметы.
+                int countTrap = sizeBoard / 2;
+                for (int i = 0; i < countTrap; i++) {
+                    int trapX;
+                    int trapY;
+
+                    do {
+                        trapX = 1 + random.nextInt(sizeBoard);
+                        trapY = 1 + random.nextInt(sizeBoard);
+                    } while (!board[trapY - 1][trapX - 1].equals("  ")
+                            || trapX == person.getX() && trapY == person.getY());
+
+                    board[trapY - 1][trapX - 1] = trap;
                 }
 
                 int countMonster = sizeBoard * 2 - 2;
@@ -83,36 +116,47 @@ public class Main {
                 }
 
                 System.out.println("Выбранная сложность:\t" + difficultGame);
-                System.out.println("Собирайте сокровища: каждое даёт 10 очков.");
-                System.out.println("Победа над монстром даёт 20 очков. Найдите замок!");
+                System.out.println("-- Собирайте сокровища: каждое даёт 10 очков. --");
+                System.out.println("-- Зелье восстанавливает жизнь, а ловушка отнимает её. --");
+                System.out.println("-- Обычный монстр даёт 20 очков, большой — 40. --");
+                System.out.println("-- Найдите замок и пройдите игру! --");
 
                 while (true) {
                     board[person.getY() - 1][person.getX() - 1] = person.getImage();
                     outputBoard(board, person.getLive(), score);
 
                     char personLetter = (char) ('A' + person.getX() - 1);
-                    System.out.println("Введите клетку, куда будет ходить персонаж, например D4.");
-                    System.out.println("Ход возможен только по вертикали или горизонтали на одну клетку.");
+                    System.out.println("-- Введите клетку, например D4, или кнопку W, A, S, D. --");
+                    System.out.println("-- Ход возможен только по вертикали или горизонтали на одну клетку. --");
                     System.out.println("Клетка персонажа: " + personLetter + person.getY());
 
-                    String cell = scanner.next().toUpperCase();
+                    String command = scanner.next().toUpperCase();
+                    int x = person.getX();
+                    int y = person.getY();
 
-                    if (cell.length() != 2) {
-                        System.out.println("Введите название клетки из двух символов, например D4");
+                    // W, A, S, D изменяют координаты на одну клетку.
+                    if (command.equals("W")) {
+                        y--;
+                    } else if (command.equals("S")) {
+                        y++;
+                    } else if (command.equals("A")) {
+                        x--;
+                    } else if (command.equals("D")) {
+                        x++;
+                    } else if (command.length() == 2) {
+                        char letter = command.charAt(0);
+                        char number = command.charAt(1);
+                        x = letter - 'A' + 1;
+                        y = number - '0';
+                    } else {
+                        System.out.println("Введите W, A, S, D или название клетки, например D4");
                         continue;
                     }
 
-                    char letter = cell.charAt(0);
-                    char number = cell.charAt(1);
-
-                    if (letter < 'A' || letter >= 'A' + sizeBoard
-                            || number < '1' || number >= '1' + sizeBoard) {
+                    if (x < 1 || x > sizeBoard || y < 1 || y > sizeBoard) {
                         System.out.println("Такой клетки нет на игровом поле");
                         continue;
                     }
-
-                    int x = letter - 'A' + 1;
-                    int y = number - '0';
 
                     if (person.isMoveCorrect(x, y)) {
                         if (board[y - 1][x - 1].equals("  ")) {
@@ -120,7 +164,8 @@ public class Main {
                             person.move(x, y);
                             step++;
 
-                            System.out.println("Ход корректный; новая клетка: " + cell
+                            char newLetter = (char) ('A' + person.getX() - 1);
+                            System.out.println("Ход корректный; новая клетка: " + newLetter + person.getY()
                                     + "\nХод номер: " + step);
                         } else if (board[y - 1][x - 1].equals(castle)) {
                             step++;
@@ -133,6 +178,22 @@ public class Main {
                             step++;
                             score += 10;
                             System.out.println("Вы нашли сокровище! +10 очков");
+                        } else if (board[y - 1][x - 1].equals(potion)) {
+                            board[person.getY() - 1][person.getX() - 1] = "  ";
+                            person.move(x, y);
+                            step++;
+
+                            if (person.upLive()) {
+                                System.out.println("Вы выпили зелье и восстановили одну жизнь!");
+                            } else {
+                                System.out.println("У вас уже максимальное количество жизней");
+                            }
+                        } else if (board[y - 1][x - 1].equals(trap)) {
+                            board[person.getY() - 1][person.getX() - 1] = "  ";
+                            person.move(x, y);
+                            person.downLive();
+                            step++;
+                            System.out.println("Вы попали в ловушку и потеряли одну жизнь!");
                         } else {
                             for (Monster monster : monsters) {
                                 if (monster.conflictPerson(x, y)) {
@@ -140,8 +201,13 @@ public class Main {
                                         board[person.getY() - 1][person.getX() - 1] = "  ";
                                         person.move(x, y);
                                         step++;
-                                        score += 20;
-                                        System.out.println("За победу над монстром вы получили 20 очков!");
+                                        if (monster instanceof BigMonster) {
+                                            score += 40;
+                                            System.out.println("За победу над большим монстром вы получили 40 очков!");
+                                        } else {
+                                            score += 20;
+                                            System.out.println("За победу над монстром вы получили 20 очков!");
+                                        }
                                     } else {
                                         person.downLive();
                                     }

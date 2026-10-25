@@ -35,6 +35,7 @@ public class Monster {
     public boolean taskMonster(int difficultGame, Scanner scanner) {
         System.out.println("Решите задачу:");
 
+        // Сложность определяет вид математического примера.
         Random random = new Random();
         int trueAnswer = 0;
         String example = "";

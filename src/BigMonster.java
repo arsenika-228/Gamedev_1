@@ -8,6 +8,7 @@ public class BigMonster extends Monster {
 
     @Override
     public boolean taskMonster(int difficultGame, Scanner scanner) {
+        // На первой сложности задание остаётся простым.
         if (difficultGame == 1) {
             return super.taskMonster(1, scanner);
         }
